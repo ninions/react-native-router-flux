@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 
 const barStyle = {
@@ -13,6 +13,18 @@ const barStyle = {
   lighterDark: 'light-content',
 };
 
+const styles = StyleSheet.create({
+  fixBackground: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    height: 100,
+    zIndex: -1000,
+  }
+})
+
 const SFAView = (config = {}) =>
   WrappedComponent =>
   class extends Component {
@@ -21,9 +33,10 @@ const SFAView = (config = {}) =>
 
       return (
         <Fragment>
-          <SafeAreaView style={headerStyle} forceInset={{ top: top || 'never' }} />
-          <WrappedComponent {...this.props} />
-          <SafeAreaView style={footerStyle} forceInset={{ bottom: bottom || 'never' }} />
+          <SafeAreaView style={[{ flex: 1 }, headerStyle]} forceInset={top && { top: top }}>
+            <WrappedComponent {...this.props} />
+            <View style={[styles.fixBackground, footerStyle]} />
+          </SafeAreaView>
         </Fragment>
       );
     }
