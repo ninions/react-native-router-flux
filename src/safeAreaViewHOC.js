@@ -17,13 +17,13 @@ const SFAView = (config = {}) =>
   WrappedComponent =>
   class extends Component {
     render() {
-      const { top = {}, bottom = {} } = config;
+      const { top, bottom, headerStyle = {}, footerStyle = {} } = config;
 
       return (
         <Fragment>
-          <SafeAreaView style={top.backgroundColor} forceInset={top.forceInset || { top: 'never' }} />
+          <SafeAreaView style={headerStyle} forceInset={{ top: top || 'never' }} />
           <WrappedComponent {...this.props} />
-          <SafeAreaView style={bottom.backgroundColor} forceInset={bottom.forceInset || { top: 'never' }} />
+          <SafeAreaView style={footerStyle} forceInset={{ bottom: bottom || 'never' }} />
         </Fragment>
       );
     }
