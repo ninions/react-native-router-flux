@@ -34,6 +34,7 @@ import Overlay from './Overlay';
 import OverlayRenderer from './OverlayRenderer';
 import createStackNavigatorHOC from './createStackNavigatorHOC';
 import createTabNavigatorHOC from './createTabNavigatorHOC';
+import safeAreaViewHOC from './safeAreaViewHOC';
 
 let RightNavBarButton;
 let LeftNavBarButton;
@@ -443,9 +444,12 @@ function createWrapper(Component, wrapBy, store: NavigationStore) {
       render() {
         const { navigation } = this.props;
         if (!navigation || !navigation.state) {
-          return <Component ref={this.onRef} {...this.props} />;
+          const WithSafeAreaComponent = safeAreaViewHOC()(Component);
+          return <WithSafeAreaComponent ref={this.onRef} {...this.props} />;
+        } else {
+          const WithSafeAreaComponent = safeAreaViewHOC(navigation.state.params.forceInset)(Component);
+          return <WithSafeAreaComponent ref={this.onRef} {...this.props} {...extendProps(navigation.state.params, store)} name={navigation.state.routeName} />;
         }
-        return <Component ref={this.onRef} {...this.props} {...extendProps(navigation.state.params, store)} name={navigation.state.routeName} />;
       }
     }
     return wrapper(Wrapped);
