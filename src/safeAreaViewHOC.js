@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, StyleSheet, SafeAreaView } from 'react-navigation';
+import { StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 
 const barStyle = {
   white: 'dark-content',
